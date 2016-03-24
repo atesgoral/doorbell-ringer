@@ -2,10 +2,7 @@ import yaml
 import sys
 import codecs
 
-from TwitterAPI import TwitterAPI
-from TwitterAPI import TwitterRequestError
-from TwitterAPI import TwitterConnectionError
-
+from TwitterAPI import TwitterAPI, TwitterRequestError, TwitterConnectionError
 
 configStream = open('config.yml', 'r')
 config = yaml.load(configStream)
