@@ -17,30 +17,14 @@ api = TwitterAPI(
   config['twitter']['accessTokenSecret']
 )
 
-#r = api.request('user')
-
-#for item in r:
-#  print(item)
-
-rateLimitStatus = api.request('application/rate_limit_status');
-mentions = rateLimitStatus.json()['resources']['statuses']['/statuses/mentions_timeline'];
-
-if mentions['remaining'] == 0:
-  print('Rate limit exceeded');
-  # reset, limit
-  sys.exit()
-
 while True:
   try:
     print('requesting');
-    iterator = api.request('statuses/mentions_timeline', {
-      #'count': 1,
-      #'include_rts': 1,
-      #'include_entities': 0
-    }).get_iterator()
+    iterator = api.request('user').get_iterator()
 
     for item in iterator:
       if 'text' in item:
+        #item['entities']['user_mentions']['screen_name'] == config['twitter']['username']
         out.write("%s\n" % item['text'])
       elif 'disconnect' in item:
         event = item['disconnect']
