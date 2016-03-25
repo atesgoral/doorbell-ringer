@@ -16,14 +16,6 @@ opkg update
 opkg install python-light python-pip git git-http
 ```
 
-## Install Service
-
-```sh
-mkdir /opt
-cd opt
-git clone https://github.com/atesgoral/doorbell-ringer.git
-```
-
 ## Setup Python Environment for Onion Omega or Local Development
 
 ```sh
