@@ -24,8 +24,8 @@ while True:
 
     for item in iterator:
       if 'text' in item:
-        #item['entities']['user_mentions']['screen_name'] == config['twitter']['username']
-        out.write("%s\n" % item['text'])
+        if item['user']['screen_name'] == 'DoorbellNotifier':
+          out.write("%s\n" % item['text'])
       elif 'disconnect' in item:
         event = item['disconnect']
 
