@@ -1,6 +1,7 @@
 import sys
 import codecs
 import time
+from subprocess import call
 
 import yaml
 from TwitterAPI import TwitterAPI, TwitterRequestError, TwitterConnectionError
@@ -30,7 +31,9 @@ while True:
 
           if '#ringit' in item['text']:
             out.write("Ringing it!\n")
+            call([ 'ubus', 'call', 'gpio', 'set_pin', '\'{"pin":0,"value":1}\''])
             time.sleep(1)
+            call([ 'ubus', 'call', 'gpio', 'set_pin', '\'{"pin":0,"value":0}\''])
       elif 'disconnect' in item:
         event = item['disconnect']
 
