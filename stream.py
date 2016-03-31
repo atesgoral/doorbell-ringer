@@ -28,7 +28,7 @@ while True:
         if item['user']['screen_name'] == 'DoorbellNudger':
           out.write("%s\n" % item['text'])
 
-          if '#ring-it' in item['text']:
+          if '#ringit' in item['text']:
             out.write("Ringing it!\n")
             time.sleep(1)
       elif 'disconnect' in item:
