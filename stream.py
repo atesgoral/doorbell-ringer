@@ -1,3 +1,4 @@
+import os
 import sys
 import codecs
 import time
@@ -6,7 +7,7 @@ from subprocess import call
 import yaml
 from TwitterAPI import TwitterAPI, TwitterRequestError, TwitterConnectionError
 
-configStream = open('config.yml', 'r')
+configStream = open(os.path.join(os.path.dirname(__file__), 'config.yml'), 'r')
 config = yaml.load(configStream)
 configStream.close()
 
