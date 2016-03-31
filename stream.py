@@ -1,5 +1,6 @@
 import sys
 import codecs
+import time
 
 import yaml
 from TwitterAPI import TwitterAPI, TwitterRequestError, TwitterConnectionError
@@ -26,6 +27,10 @@ while True:
       if 'text' in item:
         if item['user']['screen_name'] == 'DoorbellNotifier':
           out.write("%s\n" % item['text'])
+
+          if '#ring-it' in item['text']:
+            out.write("Ringing it!\n")
+            time.sleep(1)
       elif 'disconnect' in item:
         event = item['disconnect']
 
