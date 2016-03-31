@@ -25,7 +25,7 @@ while True:
 
     for item in iterator:
       if 'text' in item:
-        if item['user']['screen_name'] == 'DoorbellNotifier':
+        if item['user']['screen_name'] == 'DoorbellNudger':
           out.write("%s\n" % item['text'])
 
           if '#ring-it' in item['text']:
