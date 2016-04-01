@@ -1,19 +1,37 @@
 import os
 import sys
-import codecs
 import time
+import logging
+import logging.handlers
 from subprocess import call
 
 import yaml
 from TwitterAPI import TwitterAPI, TwitterRequestError, TwitterConnectionError
 
-call([ 'expled', '0000ff' ])
+logger = logging.getLogger(__name__)
+handler = logging.handlers.SysLogHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.addHandler(logging.StreamHandler(sys.stdout))
+logger.setLevel(logging.INFO)
+
+def setLed(color):
+  call([ 'expled', color ])
+  return
+
+def setPin(pin, value):
+  call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":{0},"value":{1}}'.format(pin, value) ])
+  return
+
+logger.info('Initializing')
+
+setLed('0000ff')
 
 configStream = open(os.path.join(os.path.dirname(__file__), 'config.yml'), 'r')
 config = yaml.load(configStream)
 configStream.close()
-
-out = codecs.getwriter('utf-8')(sys.stdout)
 
 api = TwitterAPI(
   config['twitter']['consumerKey'],
@@ -24,44 +42,44 @@ api = TwitterAPI(
 
 while True:
   try:
-    print('Requesting');
+    logger.info('Requesting');
     iterator = api.request('user').get_iterator()
 
-    call([ 'expled', '00ff00' ])
+    setLed('00ff00')
 
     for item in iterator:
       if 'text' in item:
         if item['user']['screen_name'] == 'DoorbellNudger':
-          out.write("%s\n" % item['text'])
+          logger.info("%s\n" % unicode(item['text']))
 
           if '#ringit' in item['text']:
-            out.write("Ringing it!\n")
-            call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":0,"value":1}' ])
-            call([ 'expled', 'ff00ff' ])
+            logger.info("Ringing it!\n")
+            setPin(0, 1);
+            setLed('ff00ff')
             time.sleep(1)
-            call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":0,"value":0}' ])
-            call([ 'expled', '00ff00' ])
+            setPin(0, 0);
+            setLed('00ff00')
       elif 'disconnect' in item:
         event = item['disconnect']
 
         if event['code'] in [ 2, 5, 6, 7 ]:
           # something needs to be fixed before re-connecting
-          call([ 'expled', 'ff0000' ])
+          setLed('ff0000')
           raise Exception(event['reason'])
         else:
           # temporary interruption, re-try request
-          print('Disconnected, retrying');
+          logger.info('Disconnected, retrying');
           break
   except TwitterRequestError as e:
     if e.status_code < 500:
       # something needs to be fixed before re-connecting
-      call([ 'expled', 'ff0000' ])
+      setLed('ff0000')
       raise
     else:
       # temporary interruption, re-try request
-      print('Request error, retrying');
+      logger.info('Request error, retrying');
       pass
   except TwitterConnectionError:
     # temporary interruption, re-try request
-    print('Connection error, retrying');
+    logger.info('Connection error, retrying');
     pass
