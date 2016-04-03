@@ -13,6 +13,26 @@ Follow the pivot-overlay section:
 
 https://wiki.onion.io/Tutorials/Using-USB-Storage-as-Rootfs
 
+tl;dr:
+
+```sh
+opkg update
+opkg install e2fsprogs
+mkfs.ext4 /dev/sda1
+mkdir /mnt/sda1
+mount /dev/sda1 /mnt/sda1/
+mount /dev/sda1 /mnt ; tar -C /overlay -cvf - . | tar -C /mnt -xf - ; umount /mnt
+block detect > /etc/config/fstab
+```
+Edit /etc/config/fstab:
+
+```
+option target '/overlay'
+option enabled '1'
+```
+
+Then reboot your Omega.
+
 #### Install Python and Git
 
 ```sh
