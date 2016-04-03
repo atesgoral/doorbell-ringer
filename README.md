@@ -9,6 +9,10 @@ Rings a doorbell
 
 #### Mount USB Drive
 
+Follow the pivot-overlay section:
+
+https://wiki.onion.io/Tutorials/Using-USB-Storage-as-Rootfs
+
 #### Install Python and Git
 
 ```sh
