@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import json
 import logging
 import logging.handlers
 from subprocess import call
@@ -22,7 +23,7 @@ def setLed(color):
   return
 
 def setPin(value):
-  call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":0,"value":{0}}'.format(value) ])
+  call([ 'ubus', 'call', 'gpio', 'set_pin', json.dumps({ 'pin': 0, 'value': value }) ])
   return
 
 logger.info('Initializing')
