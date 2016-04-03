@@ -22,7 +22,7 @@ def setLed(color):
   return
 
 def setPin(value):
-  call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":0,"value":{1}}'.format(value) ])
+  call([ 'ubus', 'call', 'gpio', 'set_pin', '{"pin":0,"value":{0}}'.format(value) ])
   return
 
 logger.info('Initializing')
