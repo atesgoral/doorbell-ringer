@@ -3,20 +3,20 @@
 # doorbell-ringer
 Rings a doorbell
 
-# Setup
+## Setup
 
-## Prepare Onion Omega
+### Prepare Onion Omega
 
-### Mount USB Drive
+#### Mount USB Drive
 
-### Install Python and Git
+#### Install Python and Git
 
 ```sh
 opkg update
 opkg install python-light python-pip git git-http
 ```
 
-## Setup Python Environment for Onion Omega or Local Development
+### Python Environment for Onion Omega or Local Development
 
 ```sh
 pip install virtualenv
@@ -25,13 +25,27 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Run Service
+### Additional Setup for Local Development
+
+To stub out the `expled` and `ubus` commands available on Omega's OpenWRT, you can copy the contents of the stubs directory to your bin folder or add the stubs folder to your PATH.
+
+### Additional Setup for Onion Omega
+
+Create a symbolic link to the init.d script and enable the service to start on boot:
+
+```sh
+ln -s /opt/doorbell-ringer/init.d.sh /etc/init.d/doorbell-ringer
+/etc/init.d/doorbell-ringer enable
+reboot
+```
+
+### Run Service
 
 ```sh
 python stream.py
 ```
 
-## Run Tests
+### Run Tests
 
 ```sh
 python -m unittest discover -s test
