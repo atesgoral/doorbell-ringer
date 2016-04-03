@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/atesgoral/doorbell-ringer.svg?branch=master)](https://travis-ci.org/atesgoral/doorbell-ringer)
 
 # doorbell-ringer
-Rings a doorbell
+This is a Python service that runs on an Onion Omega. As the @DoorbellRinger Twitter account, it watches the user stream and rings a doorbell when the @DoorbellNudger tweets something with the #ringit hashtag.
 
 ## Setup
 
