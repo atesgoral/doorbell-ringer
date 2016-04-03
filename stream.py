@@ -78,7 +78,8 @@ while True:
       # something needs to be fixed before re-connecting
       setLed('ff0000')
       logger.error(e.status_code)
-      raise
+      time.sleep(10)
+      pass
     else:
       # temporary interruption, re-try request
       logger.warning('Request error, retrying');
