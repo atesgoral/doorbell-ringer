@@ -1,7 +1,6 @@
 import os
 import sys
 import time
-import json
 import logging
 import logging.handlers
 from subprocess import call
@@ -22,8 +21,8 @@ def setLed(color):
   call([ 'expled', color ])
   return
 
-def setPin(value):
-  call([ 'ubus', 'call', 'gpio', 'set_pin', json.dumps({ 'pin': 0, 'value': value }) ])
+def setButton(value):
+  call([ 'relay-exp', '-i', '0', value ])
   return
 
 logger.info('Initializing')
@@ -55,10 +54,10 @@ while True:
 
           if '#ringit' in item['text']:
             logger.info("Ringing it!")
-            setPin(1);
+            setButton(1);
             setLed('ff00ff')
             time.sleep(1)
-            setPin(0);
+            setButton(0);
             setLed('00ff00')
       elif 'disconnect' in item:
         event = item['disconnect']
