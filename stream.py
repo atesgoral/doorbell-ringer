@@ -26,7 +26,7 @@ def setButton(value):
   return
 
 def setText(text):
-  call([ 'oled-exp', '-c', 'write', text ])
+  call([ 'oled-exp', '-i', '-c', '-q', 'write', text ])
   return
 
 logger.info('Initializing')
