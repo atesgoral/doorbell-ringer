@@ -47,8 +47,8 @@ api = TwitterAPI(
 
 while True:
   try:
-    logger.info('Requesting')
-    setText('Initializing')
+    logger.info('Streaming tweets')
+    setText('Streaming tweets')
     iterator = api.request('user').get_iterator()
 
     setLed('00ff00')
