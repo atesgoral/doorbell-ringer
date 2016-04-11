@@ -22,10 +22,15 @@ def setLed(color):
   return
 
 def setButton(value):
-  call([ 'relay-exp', '-i', '0', value ])
+  call([ 'relay-exp', '-i', '0', str(value) ])
+  return
+
+def setText(text):
+  call([ 'oled-exp', '-c', 'write', text ])
   return
 
 logger.info('Initializing')
+setText('Initializing')
 
 setLed('0000ff')
 
@@ -42,7 +47,8 @@ api = TwitterAPI(
 
 while True:
   try:
-    logger.info('Requesting');
+    logger.info('Requesting')
+    setText('Initializing')
     iterator = api.request('user').get_iterator()
 
     setLed('00ff00')
@@ -53,10 +59,13 @@ while True:
           logger.info(unicode(item['text']))
 
           if '#ringit' in item['text']:
-            logger.info("Ringing it!")
+            logger.info('Ringing it!')
+            setText('Ringing it!')
             setButton(1);
             setLed('ff00ff')
             time.sleep(1)
+            logger.info('Waiting')
+            setText('Waiting')
             setButton(0);
             setLed('00ff00')
       elif 'disconnect' in item:
@@ -77,6 +86,7 @@ while True:
       # something needs to be fixed before re-connecting
       setLed('ff0000')
       logger.error(e.status_code)
+      setText('Waiting 10s')
       time.sleep(10)
       pass
     else:
