@@ -73,8 +73,8 @@ while True:
             logger.info('Updating!')
             setText('Updating!')
             setLed('ffff00')
-            call([ '/etc/init.d/doorbell-ringer update' ])
-            call([ '/etc/init.d/doorbell-ringer restart' ])
+            call([ '/etc/init.d/doorbell-ringer', 'update' ])
+            call([ '/etc/init.d/doorbell-ringer', 'restart' ])
             setLed('000000')
       elif 'disconnect' in item:
         event = item['disconnect']
