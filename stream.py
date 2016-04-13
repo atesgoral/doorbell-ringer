@@ -66,8 +66,16 @@ while True:
             time.sleep(1)
             logger.info('Waiting')
             setText('Waiting')
-            setButton(0);
+            setButton(0)
             setLed('00ff00')
+          elif '#update' in item['text']:
+            # self-update
+            logger.info('Updating!')
+            setText('Updating!')
+            setLed('ffff00')
+            call([ '/etc/init.d/doorbell-ringer update' ])
+            call([ '/etc/init.d/doorbell-ringer restart' ])
+            setLed('000000')
       elif 'disconnect' in item:
         event = item['disconnect']
 
