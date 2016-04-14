@@ -17,8 +17,13 @@ logger.addHandler(handler)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 logger.setLevel(logging.INFO)
 
-def setLed(color):
-  call([ 'expled', color ])
+def flashLed(r, g, b):
+  call([ 'fast-gpio', 'set', '17', str(1 - r) ])
+  call([ 'fast-gpio', 'set', '16', str(1 - g) ])
+  call([ 'fast-gpio', 'set', '15', str(1 - b) ])
+  call([ 'fast-gpio', 'set', '17', '1' ])
+  call([ 'fast-gpio', 'set', '16', '1' ])
+  call([ 'fast-gpio', 'set', '15', '1' ])
   return
 
 def setButton(value):
@@ -32,7 +37,7 @@ def setText(text):
 logger.info('Initializing')
 setText('Initializing')
 
-setLed('0000ff')
+flashLed(0, 0, 1)
 
 configStream = open(os.path.join(os.path.dirname(__file__), 'config.yml'), 'r')
 config = yaml.load(configStream)
@@ -51,7 +56,7 @@ while True:
     setText('Streaming tweets')
     iterator = api.request('user').get_iterator()
 
-    setLed('00ff00')
+    flashLed(0, 1, 0)
 
     for item in iterator:
       if 'text' in item:
@@ -64,8 +69,8 @@ while True:
             logger.info('Ringing it!')
             setText('Ringing it!')
 
+            flashLed(1, 0, 1)
             setButton(1);
-            setLed('ff00ff')
 
             time.sleep(1)
 
@@ -73,25 +78,22 @@ while True:
             setText('Waiting')
 
             setButton(0)
-            setLed('00ff00')
           elif '#update' in item['text']:
             api.request('statuses/update', { 'status': 'OK! Self-updating. See you in a bit...', 'in_reply_to_status_id': item.id });
 
             logger.info('Updating!')
             setText('Updating!')
 
-            setLed('ffff00')
+            flashLed(1, 1, 0)
 
             call([ '/etc/init.d/doorbell-ringer', 'update' ])
             call([ '/etc/init.d/doorbell-ringer', 'restart' ])
-
-            setLed('000000')
       elif 'disconnect' in item:
         event = item['disconnect']
 
         if event['code'] in [ 2, 5, 6, 7 ]:
           # something needs to be fixed before re-connecting
-          setLed('ff0000')
+          flashLed(1, 0, 0)
           logger.error(event['reason'])
           raise Exception(event['reason'])
         else:
@@ -102,7 +104,7 @@ while True:
   except TwitterRequestError as e:
     if e.status_code < 500:
       # something needs to be fixed before re-connecting
-      setLed('ff0000')
+      flashLed(1, 0, 0)
       logger.error(e.status_code)
       setText('Waiting 10s')
       time.sleep(10)
