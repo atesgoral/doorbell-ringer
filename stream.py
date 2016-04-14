@@ -64,7 +64,7 @@ while True:
           logger.info(unicode(item['text']))
 
           if '#ringit' in item['text']:
-            api.request('statuses/update', { 'status': 'OK! Ringing it!', 'in_reply_to_status_id': item['id'] });
+            api.request('statuses/update', { 'status': '@DoorbellNudger OK! Ringing it!', 'in_reply_to_status_id': item['id'] });
 
             logger.info('Ringing it!')
             setText('Ringing it!')
@@ -79,7 +79,7 @@ while True:
 
             setButton(0)
           elif '#update' in item['text']:
-            api.request('statuses/update', { 'status': 'OK! Self-updating. See you in a bit...', 'in_reply_to_status_id': item['id'] });
+            api.request('statuses/update', { 'status': '@DoorbellNudger OK! Self-updating. See you in a bit...', 'in_reply_to_status_id': item['id'] });
 
             logger.info('Updating!')
             setText('Updating!')
