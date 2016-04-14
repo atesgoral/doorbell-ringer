@@ -59,22 +59,32 @@ while True:
           logger.info(unicode(item['text']))
 
           if '#ringit' in item['text']:
+            api.request('statuses/update', { 'status': 'OK! Ringing it!', 'in_reply_to_status_id': item.id });
+
             logger.info('Ringing it!')
             setText('Ringing it!')
+
             setButton(1);
             setLed('ff00ff')
+
             time.sleep(1)
+
             logger.info('Waiting')
             setText('Waiting')
+
             setButton(0)
             setLed('00ff00')
           elif '#update' in item['text']:
-            # self-update
+            api.request('statuses/update', { 'status': 'OK! Self-updating. See you in a bit...', 'in_reply_to_status_id': item.id });
+
             logger.info('Updating!')
             setText('Updating!')
+
             setLed('ffff00')
+
             call([ '/etc/init.d/doorbell-ringer', 'update' ])
             call([ '/etc/init.d/doorbell-ringer', 'restart' ])
+
             setLed('000000')
       elif 'disconnect' in item:
         event = item['disconnect']
