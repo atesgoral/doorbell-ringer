@@ -55,6 +55,14 @@ To stub out the `expled` and `ubus` commands available on Omega's OpenWRT, you c
 
 ### Additional Setup for Onion Omega
 
+Clone this repository (via HTTPS) into the /opt directory:
+
+```sh
+mkdir /opt
+cd /opt
+git clone https://github.com/atesgoral/doorbell-ringer.git
+```
+
 Create a symbolic link to the init.d script and enable the service to start on boot:
 
 ```sh
