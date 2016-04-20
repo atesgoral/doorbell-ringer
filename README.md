@@ -3,6 +3,8 @@
 # doorbell-ringer
 This is a Python service that runs on an [Onion Omega](https://onion.io/omega). As the [@DoorbellRinger](https://twitter.com/DoorbellRinger) Twitter account, it watches the user stream and rings a doorbell when [@DoorbellNudger](https://twitter.com/DoorbellNudger) tweets something with the `#ringit` hashtag. It also auto-updates with the `#update` hashtag.
 
+![New look](https://cloud.githubusercontent.com/assets/50832/14685200/a78bdad4-0701-11e6-98f3-82cf8c01ce77.JPG)
+
 ## Onion Omega Setup
 
 ### Mount USB Drive
