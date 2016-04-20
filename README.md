@@ -62,6 +62,17 @@ ln -s /opt/doorbell-ringer/init.d.sh /etc/init.d/doorbell-ringer
 /etc/init.d/doorbell-ringer enable
 reboot
 ```
+### Configuration
+
+Make a copy of config.yml.example as config.yml and fill in the fields:
+
+```yml
+twitter:
+  consumerKey: ...
+  consumerSecret: ...
+  accessTokenKey: ...
+  accessTokenSecret: ...
+```
 
 ### Run Service
 
