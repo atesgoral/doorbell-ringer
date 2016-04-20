@@ -3,11 +3,9 @@
 # doorbell-ringer
 This is a Python service that runs on an [Onion Omega](https://onion.io/omega). As the [@DoorbellRinger](https://twitter.com/DoorbellRinger) Twitter account, it watches the user stream and rings a doorbell when [@DoorbellNudger](https://twitter.com/DoorbellNudger) tweets something with the #ringit hashtag.
 
-## Setup
+## Onion Omega Setup
 
-### Prepare Onion Omega
-
-#### Mount USB Drive
+### Mount USB Drive
 
 Follow the pivot-overlay section:
 
@@ -33,27 +31,14 @@ option enabled '1'
 
 Then reboot your Omega.
 
-#### Install Python and Git
+### Install Python and Git
 
 ```sh
 opkg update
 opkg install python-light python-pip git git-http
 ```
 
-### Python Environment for Onion Omega or Local Development
-
-```sh
-pip install virtualenv
-virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-### Additional Setup for Local Development
-
-To stub out the `expled` and `ubus` commands available on Omega's OpenWRT, you can copy the contents of the stubs directory to your bin folder or add the stubs folder to your PATH.
-
-### Additional Setup for Onion Omega
+### Get the Service
 
 Clone this repository (via HTTPS) into the /opt directory:
 
@@ -63,16 +48,16 @@ cd /opt
 git clone https://github.com/atesgoral/doorbell-ringer.git
 ```
 
-Create a symbolic link to the init.d script and enable the service to start on boot:
+### Install Python Packages
 
 ```sh
-ln -s /opt/doorbell-ringer/init.d.sh /etc/init.d/doorbell-ringer
-/etc/init.d/doorbell-ringer enable
-reboot
+cd /opt/doorbell-ringer
+pip install -r requirements.txt
 ```
-### Configuration
 
-Make a copy of config.yml.example as config.yml and fill in the fields:
+### Configure the Service
+
+Make a copy of config.yml.example as config.yml and fill in your Twitter Application's access settings:
 
 ```yml
 twitter:
@@ -82,13 +67,35 @@ twitter:
   accessTokenSecret: ...
 ```
 
-### Run Service
+### Set up the Service to Run on Boot
+
+Create a symbolic link to the init.d script and enable the service:
+
+```sh
+ln -s /opt/doorbell-ringer/init.d.sh /etc/init.d/doorbell-ringer
+/etc/init.d/doorbell-ringer enable
+reboot
+```
+
+### Start the Service
+
+After the service is set up to run on boot, just reboot the Omega. Or manually start the service:
+
+```sh
+/etc/init.d/doorbell-ringer start
+```
+
+### Manually Running the Service
 
 ```sh
 python stream.py
 ```
 
-### Run Tests
+## Local Development
+
+To stub out the `expled` and `ubus` commands available on Omega's OpenWRT, you can copy the contents of the stubs directory to your bin folder or add the stubs folder to your PATH.
+
+### Running the Tests
 
 ```sh
 python -m unittest discover -s test
