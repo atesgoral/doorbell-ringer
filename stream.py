@@ -17,6 +17,10 @@ logger.addHandler(handler)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 logger.setLevel(logging.INFO)
 
+# def call(args):
+#   logger.info('Stub call: %s', args)
+#   return
+
 def flashLed(r, g, b):
   call([ 'fast-gpio', 'set', '17', str(1 - r) ])
   call([ 'fast-gpio', 'set', '16', str(1 - g) ])
@@ -54,7 +58,7 @@ while True:
   try:
     logger.info('Streaming tweets')
     setText('Streaming tweets')
-    iterator = api.request('user').get_iterator()
+    iterator = api.request('statuses/filter', { 'follow': '712819138490671104' }).get_iterator()
 
     flashLed(0, 1, 0)
 
